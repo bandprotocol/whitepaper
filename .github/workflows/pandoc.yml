@@ -1,0 +1,35 @@
+name: Build PDF
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Build Docker image
+        run: docker build -t custom-pandoc-latex .
+
+      - name: Generate PDF with Pandoc
+        run: docker run --rm --volume "${{ github.workspace }}:/data" --user `id -u`:`id -g` custom-pandoc-latex doc.md -o doc.pdf --template=/data/template.tex
+
+      - name: Deploy PDF to GitHub Pages
+        if: success()
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git clone --depth 1 --branch gh-pages https://github.com/${{ github.repository }} gh-pages
+          cd gh-pages
+          cp ../doc.pdf ./whitepaper.pdf
+          git add whitepaper.pdf
+          git commit -m 'Update whitepaper'
+          git push origin gh-pages

@@ -1,0 +1,42 @@
+\documentclass{article}
+\usepackage{lmodern}
+\usepackage{multicol}
+\usepackage[margin=1.25in, top=0.8in]{geometry} % Adjust the overall margins and top margin
+\usepackage{titling}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{graphicx}
+
+\setlength{\droptitle}{-2em}
+\setlist[itemize,1]{left=0pt}
+\setlist[enumerate,1]{left=0pt}
+
+\title{$title$\vspace{-2em}}
+\author{}
+\date{$date$}
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\newenvironment{pandocbounded}{}{}
+\setlength{\columnsep}{3em}
+\begin{document}
+\maketitle
+
+$if(abstract)$
+\vspace{-2em} % Add vertical space before the abstract
+\begin{center}
+\begin{minipage}{0.8\textwidth} % Adjust the width of the abstract
+\begin{abstract}
+$abstract$
+\end{abstract}
+\end{minipage}
+\end{center}
+\vspace{1em} % Add vertical space after the abstract
+$endif$
+
+\begin{multicols}{2}
+$body$
+\end{multicols}
+
+\end{document}
