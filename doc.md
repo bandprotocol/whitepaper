@@ -177,17 +177,19 @@ type MsgRemoveTunnel struct {
 ```
 
 # Threshold Signature
+`[REDACTED]`
+
 [comment]: One way that price data can be sent to a target
 
-## TSS Group and Incentives
+[comment]: ## TSS Group and Incentives
 
-## Packet Creation
+[comment]: ## Packet Creation
 
-## Data Encoding Scheme
+[comment]: ## Data Encoding Scheme
 
-## Signature Aggregation
+[comment]: ## Signature Aggregation
 
-## Delivery to EVM Blockchains
+[comment]: ## Delivery to EVM Blockchains
 
 # Integration with Interoperability Protocols
 `[REDACTED]`
