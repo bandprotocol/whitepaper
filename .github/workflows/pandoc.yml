@@ -1,4 +1,4 @@
-name: Build PDF
+name: Build and Deploy PDF
 
 on:
   push:
@@ -7,6 +7,11 @@ on:
   pull_request:
     branches:
       - master
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   build:
@@ -22,14 +27,16 @@ jobs:
       - name: Generate PDF with Pandoc
         run: docker run --rm --volume "${{ github.workspace }}:/data" --user `id -u`:`id -g` custom-pandoc-latex doc.md -o doc.pdf --template=/data/template.tex
 
-      - name: Deploy PDF to GitHub Pages
-        if: success()
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git clone --depth 1 --branch gh-pages https://github.com/${{ github.repository }} gh-pages
-          cd gh-pages
-          cp ../doc.pdf ./whitepaper.pdf
-          git add whitepaper.pdf
-          git commit -m 'Update whitepaper'
-          git push origin gh-pages
+      - name: Upload artifact to be deployed to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: doc.pdf
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}name
