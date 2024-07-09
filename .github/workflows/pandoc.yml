@@ -27,10 +27,15 @@ jobs:
       - name: Generate PDF with Pandoc
         run: docker run --rm --volume "${{ github.workspace }}:/data" --user `id -u`:`id -g` custom-pandoc-latex doc.md -o doc.pdf --template=/data/template.tex
 
+      - name: Move PDF to a temporary directory
+        run: |
+          mkdir -p output
+          mv doc.pdf output/doc.pdf
+
       - name: Upload artifact to be deployed to GitHub Pages
         uses: actions/upload-pages-artifact@v3
         with:
-          path: doc.pdf
+          path: output
 
   deploy:
     runs-on: ubuntu-latest
@@ -39,4 +44,4 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}name
+          github_token: ${{ secrets.GITHUB_TOKEN }}
