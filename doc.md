@@ -76,6 +76,24 @@ This section discusses the process by which price data is collected from each va
 
 Each validator must broadcast `MsgSubmitPrices` to submit individual price data for all symbols listed in the signaling hub according to the specified interval for each symbol. Failure to do so will result in the validator being deactivated and losing a portion of their revenue, as well as that of their delegators.
 
+```
+type SignalPrice struct {
+	PriceStatus [
+	    AVAILABLE
+	  | UNAVAILABLE
+	  | UNSUPPORTED
+	]
+	SignalID string
+	Price uint64
+}
+
+type MsgSubmitPrices struct {
+	Validator string
+	Timestamp int64
+	Prices []SignalPrice
+}
+```
+
 Band Protocol does not dictate how validators should obtain the raw price data. However, the Band Protocol team provides an open-source reference implementation called *Bothan*, which can be found at the [Bothan repository](https://github.com/bandprotocol/bothan). Validators are required to disclose their methods for obtaining price data for each symbol. It is the responsibility of Band Protocol token holders to choose validators based on these disclosures, ensuring the quality of the data is maintained.
 
 ## Aggregation Algorithm
@@ -159,7 +177,17 @@ type MsgRemoveTunnel struct {
 ```
 
 # Threshold Signature
-`[REDACTED]`
+[comment]: One way that price data can be sent to a target
+
+## TSS Group and Incentives
+
+## Packet Creation
+
+## Data Encoding Scheme
+
+## Signature Aggregation
+
+## Delivery to EVM Blockchains
 
 # Integration with Interoperability Protocols
 `[REDACTED]`
