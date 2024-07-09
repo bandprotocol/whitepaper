@@ -25,7 +25,7 @@ jobs:
         run: docker build -t custom-pandoc-latex .
 
       - name: Generate PDF with Pandoc
-        run: docker run --rm --volume "${{ github.workspace }}:/data" --user `id -u`:`id -g` custom-pandoc-latex doc.md -o doc.pdf --template=/data/template.tex
+        run: docker run --rm --volume "${{ github.workspace }}:/data" --user `id -u`:`id -g` custom-pandoc-latex doc.md -o doc.pdf --template=/data/doc.tex
 
       - name: Move PDF to a temporary directory
         run: |

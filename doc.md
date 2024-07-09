@@ -85,7 +85,7 @@ The aggregation algorithm in BandChain is designed to balance the amount of voti
 At any given time, the registered price for a symbol is the weighted median value of the prices reported by all validators, excluding those who report `UNAVAILABLE`. Price data is weighted by the validator’s voting power, with additional multipliers applied to prioritize more recent submissions.
 
 BandChain applies multipliers to the most recent price points to ensure greater influence. The voting power is adjusted as follows:
-![power](./power.png){ width=275px }
+![power](./assets/power.png){ width=275px }
 
 Note that if the majority voting power of validators submits `UNSUPPORTED`, the aggregated final price will not be available, and the symbol will be registered as `INVALID`.
 
