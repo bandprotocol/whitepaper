@@ -149,9 +149,9 @@ message MsgCreateTunnel {
 
   repeated SignalInfo signal_infos = 1;
   uint64 interval = 2;
-  google.protobuf.Any route = 3;
+  Any route = 3;
   FeedType feed_type = 4;
-  repeated cosmos.base.v1beta1.Coin deposit = 5;
+  repeated Coin deposit = 5;
   string creator = 6;
 }
 ```
