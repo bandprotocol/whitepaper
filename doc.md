@@ -77,7 +77,7 @@ This section discusses the process by which price data is collected from each va
 
 ## Validator's Price Data
 
-Each validator must broadcast `MsgSubmitSignalPrices` to submit individual price data for all symbols listed in the signaling hub according to the specified interval for each symbol. Failure to do so will result in the validator being deactivated and losing a portion of their revenue, as well as that of their delegators.
+`MsgSubmitSignalPrices` must be broadcasted by each validator to submit individual price data for all symbols listed in the signaling hub according to the specified interval for each symbol. Failure to do so will result in the validator being deactivated and losing a portion of their revenue, as well as that of their delegators.
 
 ```
 enum PriceStatus {
