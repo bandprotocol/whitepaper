@@ -35,14 +35,17 @@ Every $BAND token delegator has the ability to vote on which symbols should be i
 Users with delegating power can submit `MsgSubmitSignals` to BandChain at any time to express their preferences. The message structure is as follows:
 
 ```
-type Signal struct {
-	ID string
-	Power int64
+message Signal {
+  string id = 1;
+  int64 power = 2;
 }
 
-type MsgSubmitSignals struct {
-	Delegator string
-	Signals []Signal
+message MsgSubmitSignals {
+  signer = "delegator";
+  name   = "feeds/MsgSubmitSignals";
+
+  string delegator = 1;
+  repeated Signal signals = 2;
 }
 ```
 
@@ -74,23 +77,29 @@ This section discusses the process by which price data is collected from each va
 
 ## Validator's Price Data
 
-Each validator must broadcast `MsgSubmitPrices` to submit individual price data for all symbols listed in the signaling hub according to the specified interval for each symbol. Failure to do so will result in the validator being deactivated and losing a portion of their revenue, as well as that of their delegators.
+Each validator must broadcast `MsgSubmitSignalPrices` to submit individual price data for all symbols listed in the signaling hub according to the specified interval for each symbol. Failure to do so will result in the validator being deactivated and losing a portion of their revenue, as well as that of their delegators.
 
 ```
-type SignalPrice struct {
-	PriceStatus [
-	    AVAILABLE
-	  | UNAVAILABLE
-	  | UNSUPPORTED
-	]
-	SignalID string
-	Price uint64
+enum PriceStatus {
+  PRICE_STATUS_UNSPECIFIED = 0;
+  PRICE_STATUS_UNSUPPORTED = 1;
+  PRICE_STATUS_UNAVAILABLE = 2;
+  PRICE_STATUS_AVAILABLE = 3;
 }
 
-type MsgSubmitPrices struct {
-	Validator string
-	Timestamp int64
-	Prices []SignalPrice
+message SignalPrice {
+  PriceStatus price_status = 1;
+  string signal_id = 2;
+  uint64 price = 3;
+}
+
+message MsgSubmitSignalPrices {
+  signer = "validator";
+  name   = "feeds/MsgSubmitSignalPrices";
+
+  string validator = 1;
+  int64 timestamp = 2;
+  repeated SignalPrice prices = 3;
 }
 ```
 
