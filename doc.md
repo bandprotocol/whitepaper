@@ -144,8 +144,8 @@ enum FeedType {
 }
 
 message MsgCreateTunnel {
-  option (cosmos.msg.v1.signer) = "creator";
-  option (amino.name)           = "tunnel/MsgCreateTunnel";
+  option (signer)     = "creator";
+  option (amino.name) = "tunnel/MsgCreateTunnel";
 
   repeated SignalInfo signal_infos = 1;
   uint64 interval = 2;
@@ -169,8 +169,8 @@ Once created, a tunnel can be modified by the creator. To do so, the `MsgEditTun
 
 ```
 message MsgEditTunnel {
-  option (cosmos.msg.v1.signer) = "creator";
-  option (amino.name)           = "tunnel/MsgEditTunnel";
+  option (signer)     = "creator";
+  option (amino.name) = "tunnel/MsgEditTunnel";
 
   uint64 tunnel_id = 1;
   repeated SignalInfo signal_infos = 2;
@@ -185,8 +185,8 @@ If a tunnel runs out of funds to pay for data delivery fees, it will be *deactiv
 
 ```
 message MsgActivateTunnel {
-  option (cosmos.msg.v1.signer) = "creator";
-  option (amino.name)           = "tunnel/MsgActivateTunnel";
+  option (signer)     = "creator";
+  option (amino.name) = "tunnel/MsgActivateTunnel";
 
   uint64 tunnel_id = 1;
   string creator = 2;
@@ -197,8 +197,8 @@ In addition, the owner may voluntarily sends `MsgDeactivateTunnel` to pause data
 
 ```
 message MsgDeactivateTunnel {
-  option (cosmos.msg.v1.signer) = "creator";
-  option (amino.name)           = "tunnel/MsgDeactivateTunnel";
+  option (signer)     = "creator";
+  option (amino.name) = "tunnel/MsgDeactivateTunnel";
 
   uint64 tunnel_id = 1;
   string creator = 2;
@@ -211,8 +211,8 @@ A tunnel can be manually triggered by the tunnel owner if certain conditions req
 
 ```
 message MsgManualTriggerTunnel {
-  option (cosmos.msg.v1.signer) = "creator";
-  option (amino.name)           = "tunnel/MsgManualTriggerTunnel";
+  option (signer)     = "creator";
+  option (amino.name) = "tunnel/MsgManualTriggerTunnel";
 
   uint64 tunnel_id = 1;
   string creator = 2;
