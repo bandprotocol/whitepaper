@@ -128,21 +128,31 @@ Developers can choose their preferred provider for inter-chain data transmission
 
 ## New Tunnel Creation
 
-Anyone can broadcast `MsgCreateTunnel` to create a new tunnel. The message specifies data feeding conditions, the initial $BAND deposit, and the data delivery provider.
+Anyone can broadcast `MsgCreateTunnel` to create a new tunnel. The message specifies data feeding conditions, the initial $BAND deposit, and the data delivery route.
 
 ```
-type SignalInfo struct {
-	SignalID string
-	DeviationBPS uint64
-	Interval uint64
+message SignalInfo {
+  string signal_id = 1;
+  uint64 soft_deviation_bps = 2;
+  uint64 hard_deviation_bps = 3;
 }
 
-type MsgCreateTunnel struct {
-	SignalInfos []SignalInfo
-	Content tunneltypes.TunnelContent
-	FeedType enum[default, tick]
-	Deposit sdk.Coins
-	Creator string
+enum FeedType {
+  FEED_TYPE_UNSPECIFIED = 0;
+  FEED_TYPE_FIXED_POINT_ABI = 1;
+  FEED_TYPE_TICK_ABI = 2;
+}
+
+message MsgCreateTunnel {
+  option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name)           = "tunnel/MsgCreateTunnel";
+
+  repeated SignalInfo signal_infos = 1;
+  uint64 interval = 2;
+  google.protobuf.Any route = 3;
+  FeedType feed_type = 4;
+  repeated cosmos.base.v1beta1.Coin deposit = 5;
+  string creator = 6;
 }
 ```
 
@@ -154,25 +164,58 @@ The fee for using a data tunnel consists of two parts. The first part is a fixed
 
 The second part of the fee depends on the utilized tunnel. Different tunnels may have varying charges. BandChain does not impose additional fees but may perform necessary conversions of $BAND to different tokens for fee payments. Refer to the section specific to interoperability providers for more details.
 
+## Tunnel Modification
+Once created, a tunnel can be modified by the creator. To do so, the `MsgEditTunnel` message must be broadcast.
+
+```
+message MsgEditTunnel {
+  option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name)           = "tunnel/MsgEditTunnel";
+
+  uint64 tunnel_id = 1;
+  repeated SignalInfo signal_infos = 2;
+  uint64 interval = 3;
+  string creator = 4;
+}
+```
+
 ## Tunnel Activation
 
 If a tunnel runs out of funds to pay for data delivery fees, it will be *deactivated* and stop checking for delivery conditions. To re-enable the tunnel, the creator can send $BAND to the tunnel's deposit address and broadcast `MsgActivateTunnel` to BandChain.
 
 ```
-type MsgActivateTunnel struct {
-	TunnelID uint64
-	Sender string
+message MsgActivateTunnel {
+  option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name)           = "tunnel/MsgActivateTunnel";
+
+  uint64 tunnel_id = 1;
+  string creator = 2;
 }
 ```
 
-## Tunnel Removal
-
-The tunnel creator can broadcast `MsgRemoveTunnel` to remove the tunnel from BandChain. Doing so will stop further data deliveries and return the remaining balance in the tunnel's deposit address to the creator.
+In addition, the owner may voluntarily sends `MsgDeactivateTunnel` to pause data delivery logic.
 
 ```
-type MsgRemoveTunnel struct {
-	ID uint64
-	Sender string
+message MsgDeactivateTunnel {
+  option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name)           = "tunnel/MsgDeactivateTunnel";
+
+  uint64 tunnel_id = 1;
+  string creator = 2;
+}
+```
+
+## Manual Triggering of a Tunnel
+
+A tunnel can be manually triggered by the tunnel owner if certain conditions require immediate data delivery, bypassing the normal automated feeding intervals.
+
+```
+message MsgManualTriggerTunnel {
+  option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name)           = "tunnel/MsgManualTriggerTunnel";
+
+  uint64 tunnel_id = 1;
+  string creator = 2;
 }
 ```
 
