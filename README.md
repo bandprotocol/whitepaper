@@ -1,6 +1,6 @@
-# Band Protocol Whitepaper
+# Band V3 Whitepaper
 
-Welcome to the official repository for the Band Protocol Whitepaper. This document outlines the technical details, architecture, and vision of Band Protocol V3.
+Welcome to the official repository for the Band V3 Whitepaper. This document outlines the technical details, architecture, and vision of Band Protocol V3.
 
 ## Living Document
 The Band Protocol Whitepaper is a living document, continuously updated to reflect improvements and changes in the protocol. A CI/CD pipeline is set up using GitHub Actions, which automatically builds and publishes the latest version of the whitepaper.
