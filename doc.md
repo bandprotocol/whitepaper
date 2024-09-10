@@ -1,6 +1,6 @@
 ---
 title: "Band Protocol Whitepaper"
-date: "July 2024"
+date: "2024"
 abstract: Band Protocol is a chain-agnostic data oracle pipeline designed to bridge the gap between blockchains and real-world data. Built with Cosmos-SDK, BandChain allows smart contracts on any blockchain to consume real-time price data essential for various decentralized applications. BandChain is secured by validators who continuously publish price data with sub-second latency, ensuring its accuracy and reliability. The price data on BandChain is publicly accessible for non-blockchain use cases, while on-chain applications can specify conditions for data delivery through data tunnels. BandChain leverages interchain message passing protocols and native threshold signature algorithm to ensure data is delivered as required. This whitepaper summarizes the features, architecture, and operational mechanisms of BandChain, providing a comprehensive overview of how it functions as a reliable data oracle.
 ---
 
