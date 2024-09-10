@@ -137,10 +137,10 @@ message SignalInfo {
   uint64 hard_deviation_bps = 3;
 }
 
-enum FeedType {
-  FEED_TYPE_UNSPECIFIED = 0;
-  FEED_TYPE_FIXED_POINT_ABI = 1;
-  FEED_TYPE_TICK_ABI = 2;
+enum Encoder {
+  ENCODER_UNSPECIFIED = 0;
+  ENCODER_TYPE_FIXED_POINT_ABI = 1;
+  ENCODER_TYPE_TICK_ABI = 2;
 }
 
 message MsgCreateTunnel {
@@ -150,7 +150,7 @@ message MsgCreateTunnel {
   repeated SignalInfo signal_infos = 1;
   uint64 interval = 2;
   Any route = 3;
-  FeedType feed_type = 4;
+  Encoder encoder = 4;
   repeated Coin deposit = 5;
   string creator = 6;
 }
